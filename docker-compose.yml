@@ -1,0 +1,58 @@
+version: '3'
+services:
+  server:
+    command: /bin/bash ./bin/prod.sh
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+    container_name: mlpserver
+    env_file: .env
+    volumes:
+      - ./server:/app
+      - ./logs/gunicorn:/var/log/gunicorn
+      - ./frontend/dist:/app/polling/static/react
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "8443:8443"
+    tty: true
+    restart: always
+  db:
+    image: postgres:latest
+    container_name: mlpdb
+    restart: always
+    ports:
+      - "5432"
+    env_file: .env
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+  nginx:
+    container_name: mlpnginx
+    restart: always
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./server:/app
+  frontend:
+    command: npm run build
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+    container_name: mlpfront
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules

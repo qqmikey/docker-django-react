@@ -1,0 +1,38 @@
+server {
+
+    listen 80;
+
+    server_name localhost;
+    charset utf-8;
+
+    client_max_body_size 32m;
+
+    error_page 502 /nginx_502.html;
+
+    location = /nginx_502.html {
+        root  /app/backend/templates;
+    }
+
+    location / {
+        proxy_pass http://server:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /hotreload {
+        proxy_pass http://frontend:8080/hotreload;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /static {
+        alias /app/static;
+    }
+
+    location /media {
+        alias /app/media;
+    }
+
+}

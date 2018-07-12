@@ -1,0 +1,16 @@
+version: '3'
+services:
+  server:
+    command: /bin/bash ./bin/dev.sh
+    environment:
+      IS_DEBUG: "TRUE"
+  nginx:
+    ports:
+      - "80:80"
+  db:
+    ports:
+      - "5432:5432"
+  frontend:
+    command: npm run dev
+    ports:
+      - "8080:8080"
