@@ -5,8 +5,8 @@ services:
     environment:
       IS_DEBUG: "TRUE"
   nginx:
-    ports:
-      - "80:80"
+    volumes:
+      - ./nginx/sites-enabled-dev:/etc/nginx/sites-enabled
   db:
     ports:
       - "5432:5432"
