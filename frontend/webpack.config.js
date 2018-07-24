@@ -23,6 +23,7 @@ module.exports = {
         contentBase: paths.SRC,
         hot: true,
         host: '0.0.0.0',
+        overlay: true,
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
