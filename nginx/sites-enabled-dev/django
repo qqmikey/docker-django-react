@@ -1,4 +1,6 @@
 server {
+    listen 80;
+
     include "/etc/nginx/conf/django_default";
 
     location /hotreload {

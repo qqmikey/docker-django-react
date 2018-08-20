@@ -1,3 +1,17 @@
+
 server {
+    listen 80;
     include "/etc/nginx/conf/django_default";
+
+    # return 301 https://$host$request_uri;
 }
+
+# server {
+#     listen 443;
+#
+#     include "/etc/nginx/conf/django_default";
+#
+#     ssl on;
+#     ssl_certificate /etc/ssl/cert.crt;
+#     ssl_certificate_key /etc/ssl/cert.key;
+# }

@@ -2,29 +2,58 @@
 
 default: run
 
-build-front:
-	docker-compose build frontend
+define set-default-container
+	ifndef c
+	c = server
+	else ifeq (${c},all)
+	override c=
+	endif
+endef
 
-build:
-	docker-compose build server
+define use-env
+	include .env
+#	export
+endef
+
+
+set-container:
+	$(eval $(call set-default-container))
+
+build: set-container
+	docker-compose build ${c}
 
 run:
-	docker-compose up -d --force-recreate
-
-dev-deps:
-	docker-compose up -d --force-recreate db nginx frontend
+	docker-compose up -d --force-recreate ${c}
 
 dev:
-	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate
+	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
+
+restart: set-container
+	docker-compose restart ${c}
+
+stop: set-container
+	docker-compose stop ${c}
 
 down:
 	docker-compose down
 
-local: dev-deps
-	IS_DEBUG=TRUE POSTGRES_HOST=localhost POSTGRES_DB=mlpdb POSTGRES_USER=mlpuser POSTGRES_PASSWORD=mlppassword ./server/manage.py runserver
+exec: set-container
+	docker-compose exec ${c} /bin/bash
 
-exec:
-	docker-compose exec server /bin/bash
+log: set-container
+	docker-compose logs -f ${c}
+
+
+#run server local
+dev-local-deps:
+	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate db nginx frontend
+
+python_path = server/venv/bin/
+local: dev-local-deps
+	$(eval $(call use-env))
+	. $(python_path)activate && IS_DEBUG=TRUE POSTGRES_HOST=localhost POSTGRES_DB=${POSTGRES_DB} \
+	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ./server/manage.py runserver
+
 
 makemigrations:
 	docker-compose exec server ./manage.py makemigrations
@@ -32,14 +61,8 @@ makemigrations:
 migrate: makemigrations
 	docker-compose exec server ./manage.py migrate
 
-log:
-	docker-compose logs -f server
-
 collectstatic:
 	docker-compose exec server ./manage.py collectstatic --noinput
-
-exec-front:
-	docker-compose exec frontend /bin/bash
 
 build-static:
 	docker-compose up --force-recreate frontend

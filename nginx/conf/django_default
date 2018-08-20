@@ -1,7 +1,6 @@
 
-    listen 80;
 
-    server_name mediaplan.media;
+    server_name server;
     charset utf-8;
 
     client_max_body_size 32m;
