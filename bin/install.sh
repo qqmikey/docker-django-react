@@ -36,28 +36,4 @@ if [ `lsb_release -s -i` == 'Ubuntu' ]; then
 
 fi
 
-
-if [[ ! -f `pwd`'/.env' ]]; then
-
-    function get_random {
-        echo `openssl rand -base64 16`
-    }
-
-    touch `pwd`'/.env'
-    echo "SECRET_KEY=$(get_random)
-POSTGRES_DB=$(get_random)
-POSTGRES_USER=$(get_random)
-POSTGRES_PASSWORD=$(get_random)
-POSTGRES_HOST=db
-POSTGRES_PORT=5432" > `pwd`'/.env'
-fi
-
-
-if [[ ! -f `~/.ssh/id_rsa.pub` ]]; then
-ssh-keygen
-ssh-agent /bin/bash
-ssh-add ~/.ssh/id_rsa
-cat ~/.ssh/id_rsa.pub
-fi
-
 echo 'Done.'
