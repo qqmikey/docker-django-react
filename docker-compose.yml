@@ -7,33 +7,30 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: mlpserver
+    container_name: cserver
     env_file: .env
     volumes:
       - ./server:/app
       - ./logs/gunicorn:/var/log/gunicorn
-      - ./frontend/dist:/app/polling/static/react
+      - ./frontend/dist:/app/app/static/dist
     expose:
       - "8000"
     depends_on:
       - db
-    links:
-      - db
     ports:
       - "8443:8443"
-    tty: true
     restart: always
   db:
-    image: postgres:latest
-    container_name: mlpdb
+    image: postgres:11.0
+    container_name: cdb
     restart: always
-    ports:
+    expose:
       - "5432"
     env_file: .env
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    container_name: mlpnginx
+    container_name: cnginx
     restart: always
     build:
       context: ./nginx/
@@ -53,7 +50,7 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: mlpfront
+    container_name: cfront
     volumes:
       - ./frontend:/app
       - /app/node_modules

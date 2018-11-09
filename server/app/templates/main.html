@@ -2,13 +2,14 @@
 
 {% block styles %}
     {% for style in styles %}
-    <link rel="stylesheet" href="{{style}}">
+    <link rel="stylesheet" type="text/css" href="{{style}}">
     {% endfor %}
 {% endblock %}
 
 {% block content %}
-    <h2>Main</h2>
-    <div id="app"></div>
+    <div id="app">
+        <h2>Oops, React not working...</h2>
+    </div>
 {% endblock %}
 
 {% block scripts %}
