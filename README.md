@@ -5,7 +5,12 @@
 * git remote remove origin
 * git remote add origin *\<YOURREPOURL\>* 
 
-### touch .env
+### generate .env file
+
+* ./bin/create_envfile.sh
+
+### or create manually
+* touch .env
 
 * SECRET_KEY=*\<YOURKEY\>*
 * POSTGRES_DB=*\<YOURDBNAME\>*
