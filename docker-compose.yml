@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: cserver
+    container_name: gaserver
     env_file: .env
     volumes:
       - ./server:/app
@@ -22,7 +22,7 @@ services:
     restart: always
   db:
     image: postgres:11.0
-    container_name: cdb
+    container_name: gadb
     restart: always
     expose:
       - "5432"
@@ -30,7 +30,7 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    container_name: cnginx
+    container_name: ganginx
     restart: always
     build:
       context: ./nginx/
@@ -50,7 +50,7 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: cfront
+    container_name: gafront
     volumes:
       - ./frontend:/app
       - /app/node_modules
