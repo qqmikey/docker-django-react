@@ -17,8 +17,8 @@ services:
       - "8000"
     depends_on:
       - db
-    ports:
-      - "8443:8443"
+#    ports:
+#      - "8443:8443"
     restart: always
   db:
     image: postgres:11.0
@@ -36,8 +36,8 @@ services:
       context: ./nginx/
       dockerfile: Dockerfile
     ports:
-      - "80:80"
-      - "443:443"
+      - "8008:80"
+#      - "443:443"
     volumes:
       - ./logs/nginx:/var/log/nginx
       - ./nginx/conf:/etc/nginx/conf
