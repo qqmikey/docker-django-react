@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from './appActions';
 import Component from './AppComponent';
 
+
 function mapStateToProps(state) {
   return {
     rotation: state.rotationDirection,

@@ -12,7 +12,8 @@ services:
     volumes:
       - ./server:/app
       - ./logs/gunicorn:/var/log/gunicorn
-      - ./frontend/dist:/app/app/static/dist
+      - ./frontend/dist/templates:/app/app/templates
+      - ./frontend/dist/static:/app/app/static
     expose:
       - "8000"
     depends_on:
@@ -36,7 +37,7 @@ services:
       context: ./nginx/
       dockerfile: Dockerfile
     ports:
-      - "8008:80"
+      - "80:80"
 #      - "443:443"
     volumes:
       - ./logs/nginx:/var/log/nginx

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+    {% for style in styles %}
+        <link rel="stylesheet" type="text/css" href="{{style}}">
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root">
+            <h2>Oops, React not working...</h2>
+        </div>
+
+        {% for script in scripts %}
+            <script src="{{script}}"></script>
+        {% endfor %}
+    </body>
+{% endblock %}

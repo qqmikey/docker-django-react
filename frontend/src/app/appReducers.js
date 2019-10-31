@@ -1,5 +1,5 @@
 // @flow
-import { actionType } from '../constants/types';
+import { type actionType } from '../constants/types';
 import { CHANGE_ROTATION_DIRECTION } from './appActionTypes';
 
 

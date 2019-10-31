@@ -11,6 +11,6 @@ services:
     ports:
       - "5432:5432"
   frontend:
-    command: npm run dev
-    ports:
-      - "8080:8080"
+    command: npm run start
+    expose:
+      - "3000"

@@ -1,10 +1,9 @@
 // @flow
+import { hot } from 'react-hot-loader/root';
 import React, { PureComponent } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { hot } from 'react-hot-loader';
 
 import logo from './logo.svg';
-import './app.global.css';
+import './app.css';
 
 
 type Props = {
@@ -15,15 +14,6 @@ type Props = {
 
 
 class App extends PureComponent<Props> {
-  constructor(props, context) {
-    super(props, context);
-    // let data = JSON.parse(document.getElementById('app').dataset.json);
-    this.state = {};
-  }
-
-  componentDidMount() {
-  }
-
   changeRotation = () => {
     const { changeRotationDirection } = this.props;
     changeRotationDirection();
@@ -63,4 +53,4 @@ class App extends PureComponent<Props> {
   }
 }
 
-export default hot(module)(App);
+export default hot(App);
