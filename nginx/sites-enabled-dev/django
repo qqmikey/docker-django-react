@@ -3,7 +3,7 @@ server {
 
     include "/etc/nginx/conf/django_default";
 
-    location ~ (^/static/(js|media)|/sockjs-node|/__webpack_dev_server__|.*\.hot-update\.(js|json)$) {
+    location ~ (^/static/(js|media)|/sockjs-node|/__webpack_dev_server__|.*\.hot-update\.(js|json)(\.map)?$) {
         proxy_pass http://frontend:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
