@@ -13,7 +13,7 @@ services:
       - ./server:/app
       - ./logs/gunicorn:/var/log/gunicorn
       - ./frontend/dist/templates:/app/app/templates
-      - ./frontend/dist/static:/app/app/static
+      - ./frontend/dist/static:/app/frontend_static
     expose:
       - "8000"
     depends_on:
