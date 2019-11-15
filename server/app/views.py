@@ -14,6 +14,5 @@ def main(request):
     }
 
     if not settings.DEBUG:
-        # TODO: clear template loader cache after collectstatic
         return render(request, 'index.html', ctx)
     return render_str_template(request, fetch_frontend_template(), ctx)
