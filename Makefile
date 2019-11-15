@@ -63,6 +63,7 @@ migrate: makemigrations
 
 collectstatic:
 	docker-compose exec server ./manage.py collectstatic --noinput
+	docker-compose exec server ./manage.py clear_templates_cache
 
 build-static:
 	docker-compose up --force-recreate frontend
