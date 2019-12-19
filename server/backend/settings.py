@@ -144,6 +144,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend_static'),
 ]
 
+FILE_UPLOAD_PERMISSIONS = 0o644
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
