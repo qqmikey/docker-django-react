@@ -1,3 +1,4 @@
+from urllib.parse import urlencode
 from urllib.request import urlopen
 
 from django.conf import settings
@@ -8,5 +9,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # TODO: refactor clear template loader cache without request
         secret = settings.SECRET_KEY
-        response = urlopen(f'http://server:8000/api/v1/clear_template_cache?secret={secret}')
+        query = urlencode({'secret': secret})
+        response = urlopen(f'http://server:8000/api/v1/clear_template_cache?{query}')
         self.stdout.write('success.' if response.code == 200 else 'error.')
