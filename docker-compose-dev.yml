@@ -6,7 +6,7 @@ services:
       - IS_DEBUG=true
   nginx:
     volumes:
-      - ./nginx/sites-enabled-dev:/etc/nginx/sites-enabled
+      - ./nginx/conf.d-dev/django.conf:/etc/nginx/conf.d/django.conf:ro
   db:
     ports:
       - "5432:5432"
