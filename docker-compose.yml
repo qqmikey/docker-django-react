@@ -54,7 +54,11 @@ services:
       - server
       - frontend
   frontend:
-    command: npm run build
+    command: bash -c "npm run build
+      && mkdir -p dist/static && rm -rf dist/static/* && mv build/static/* dist/static
+      && mkdir -p dist/templates && mv -f build/index.html dist/templates/index.html
+      && mv build/favicon.ico dist/static && mv build/manifest.json dist/static
+      "
     build:
       context: ./frontend
       dockerfile: Dockerfile

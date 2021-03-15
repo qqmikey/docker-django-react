@@ -21,6 +21,10 @@
         alias /app/media;
     }
 
+    location ~ ^/(manifest\.json|favicon\.(ico|png))$ {
+        alias /app/static/$1;
+    }
+
     location / {
         proxy_pass http://server:8000;
         proxy_set_header Host $http_host;
