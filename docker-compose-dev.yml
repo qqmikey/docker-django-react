@@ -1,9 +1,9 @@
-version: '3'
+version: '3.7'
 services:
   server:
     command: /bin/bash ./bin/dev.sh
     environment:
-      IS_DEBUG: "TRUE"
+      - IS_DEBUG=true
   nginx:
     volumes:
       - ./nginx/sites-enabled-dev:/etc/nginx/sites-enabled

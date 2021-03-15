@@ -1,22 +1,31 @@
 #!/bin/bash
 
-if [[ ! -f `pwd`'/../.env' ]]; then
+if [[ ! -f $(pwd)'/.env' ]]; then
 
-    function get_random {
-        base=$(openssl rand -base64 16)
-        base_clear=${base/+//}
-        base_clear=${base_clear////}
-        base_clear=${base_clear//=/}
-        echo $base_clear
-    }
+  function create_random() {
+    echo $(LC_CTYPE=C tr -dc a-z0-9_ </dev/urandom | head -c 16)
+  }
 
-    touch `pwd`'/.env'
-    echo "SECRET_KEY=$(get_random)
-POSTGRES_DB=$(get_random)
-POSTGRES_USER=$(get_random)
-POSTGRES_PASSWORD=$(get_random)
+  function create_secret_key() {
+    echo $(LC_CTYPE=C tr -dc "A-Za-z0-9@#$%^&*-+_=()" </dev/urandom | head -c 52)
+  }
+
+  echo 'create .env file...'
+
+  touch $(pwd)'/.env'
+  echo "
+# postgres db
+POSTGRES_DB=$(create_random)
+POSTGRES_USER=$(create_random)
+POSTGRES_PASSWORD=$(create_random)
+
 POSTGRES_HOST=db
-POSTGRES_PORT=5432" > `pwd`'/.env'
+POSTGRES_PORT=5432
+
+# server
+SECRET_KEY=$(create_secret_key)
+JWT_SECRET_KEY=$(create_secret_key)
+" >$(pwd)'/.env'
 fi
 
 echo 'Done.'
