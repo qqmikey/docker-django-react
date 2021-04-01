@@ -11,6 +11,6 @@ services:
     ports:
       - "5432:5432"
   frontend:
-    command: npm run start
+    command: yarn start
     expose:
       - "3000"
