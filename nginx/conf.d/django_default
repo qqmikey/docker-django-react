@@ -9,16 +9,16 @@
     error_page 500 /error_page/500.html;
     error_page 502 /error_page/502.html;
 
-    location /error_page {
-        alias /app/backend/templates;
+    location /error_page/ {
+        alias /app/backend/templates/;
     }
 
-    location /static {
-        alias /app/static;
+    location /static/ {
+        alias /app/static/;
     }
 
-    location /media {
-        alias /app/media;
+    location /media/ {
+        alias /app/media/;
     }
 
     location ~ ^/(manifest\.json|favicon\.(ico|png))$ {
