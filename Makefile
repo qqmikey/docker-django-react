@@ -55,6 +55,12 @@ local: dev-local-deps
 	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ./server/manage.py runserver
 
 
+nginx-test:
+	docker-compose exec nginx nginx -t
+
+nginx-reload:
+	docker-compose exec nginx nginx -s reload
+
 makemigrations:
 	docker-compose exec server ./manage.py makemigrations
 

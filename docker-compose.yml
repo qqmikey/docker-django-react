@@ -28,7 +28,7 @@ services:
       - db
     restart: always
   db:
-    image: postgres:13
+    image: postgres:14
     container_name: cdb
     restart: always
     expose:
