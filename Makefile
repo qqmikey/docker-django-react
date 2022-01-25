@@ -43,6 +43,9 @@ exec: set-container
 log: set-container
 	docker-compose logs -f ${c}
 
+ps:
+	docker-compose -f docker-compose.yml -f docker-compose-dev.yml ps
+
 
 #run server local
 dev-local-deps:
@@ -70,6 +73,11 @@ migrate: makemigrations
 collectstatic:
 	docker-compose exec server ./manage.py collectstatic --noinput
 	docker-compose exec server ./manage.py clear_templates_cache
+
+clear-static:
+	sudo rm -rf frontend/build/*
+	sudo rm -rf frontend/dist/*
+	sudo rm -rf server/static/*
 
 build-static:
 	docker-compose up --force-recreate frontend
