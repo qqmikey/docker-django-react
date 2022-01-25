@@ -1,0 +1,8 @@
+gzip on;
+gzip_disable "msie6";
+gzip_vary on;
+gzip_proxied any;
+gzip_min_length 1000;
+gzip_types application/atom+xml application/geo+json application/javascript application/x-javascript application/json application/ld+json application/manifest+json application/rdf+xml application/rss+xml application/xhtml+xml application/xml font/ttf font/eot font/otf image/svg+xml text/css text/javascript text/plain text/xml;
+gzip_comp_level 6;
+gzip_buffers 32 8k;

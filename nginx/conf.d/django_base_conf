@@ -1,0 +1,32 @@
+charset utf-8;
+client_max_body_size 32m;
+
+root /app/frontend_dist/;
+
+error_page 404 /error_page/404.html;
+error_page 500 /error_page/500.html;
+error_page 502 /error_page/502.html;
+
+location /error_page/ {
+    internal;
+    alias /app/backend/templates/;
+}
+
+include "conf.d/static_conf";
+
+location /media/ {
+    alias /app/media/;
+}
+
+# no fallback needed
+location ~ ^/(?:api|admin)/ {
+    include "conf.d/django_server_proxy";
+}
+
+location / {
+    try_files $uri @fallback-to-backend-web-server;
+}
+
+location @fallback-to-backend-web-server {
+    include "conf.d/django_server_proxy";
+}

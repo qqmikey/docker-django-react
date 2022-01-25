@@ -6,11 +6,16 @@ services:
       - IS_DEBUG=true
   nginx:
     volumes:
+      - ./nginx/conf.d-dev/static_conf:/etc/nginx/conf.d/static_conf:ro
       - ./nginx/conf.d-dev/django.conf:/etc/nginx/conf.d/django.conf:ro
+      - ./frontend/public:/app/frontend_dist:ro
   db:
     ports:
       - "5432:5432"
   frontend:
     command: yarn start
+    environment:
+      # fix failed connection to http://localhost:3000/ws
+      - WDS_SOCKET_PORT=80
     expose:
       - "3000"

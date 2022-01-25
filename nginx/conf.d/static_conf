@@ -1,0 +1,7 @@
+location /static/ {
+    # alias /app/static/;
+
+    root /app;
+    try_files $uri /frontend_dist$uri =404;
+    # error_log /var/log/nginx/error.log debug;
+}

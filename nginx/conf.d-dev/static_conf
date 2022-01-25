@@ -1,0 +1,4 @@
+location /static/ {
+    root /app;
+    try_files $uri @fallback-to-frontend-dev-server;
+}

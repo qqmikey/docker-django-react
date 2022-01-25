@@ -59,6 +59,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'backend/templates',
+            BASE_DIR / 'frontend_dist',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -130,7 +131,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'backend/static',
-    BASE_DIR / 'frontend_static',
 ]
 
 # Default primary key field type

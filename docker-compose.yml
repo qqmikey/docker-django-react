@@ -20,8 +20,7 @@ services:
     volumes:
       - ./server:/app
       - ./logs/gunicorn:/var/log/gunicorn
-      - ./frontend/dist/templates:/app/app/templates
-      - ./frontend/dist/static:/app/frontend_static
+      - ./frontend/dist:/app/frontend_dist:ro
     expose:
       - "8000"
     depends_on:
@@ -40,7 +39,7 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    image: nginx:1.19
+    image: nginx:1.21
     container_name: cnginx
     restart: always
     ports:
@@ -50,15 +49,12 @@ services:
       - ./logs/nginx:/var/log/nginx
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./server:/app:ro
+      - ./frontend/dist:/app/frontend_dist:ro
     depends_on:
       - server
       - frontend
   frontend:
-    command: bash -c "yarn build
-      && mkdir -p dist/static && rm -rf dist/static/* && mv build/static/* dist/static
-      && mkdir -p dist/templates && mv -f build/index.html dist/templates/index.html
-      && mv build/favicon.ico dist/static && mv build/manifest.json dist/static
-      "
+    command: bash -c "yarn build && mkdir -p dist && rm -rf dist/* && mv build/* dist/"
     build:
       context: ./frontend
       dockerfile: Dockerfile
