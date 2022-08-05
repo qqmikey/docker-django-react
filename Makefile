@@ -2,7 +2,10 @@
 
 default: run
 
-define set-default-container
+production_compose_files = -f docker-compose.yml
+compose_files = $(production_compose_files) -f docker-compose-dev.yml
+
+define set_default_container
 	ifndef c
 	c = server
 	else ifeq (${c},all)
@@ -10,69 +13,69 @@ define set-default-container
 	endif
 endef
 
-define use-env
+define use_env
 	include .env
 #	export
 endef
 
 
 set-container:
-	$(eval $(call set-default-container))
+	$(eval $(call set_default_container))
 
 build: set-container
-	docker-compose build ${c}
+	docker-compose $(compose_files) build ${c}
 
 run:
-	docker-compose up -d --force-recreate ${c}
+	docker-compose $(production_compose_files) up -d --force-recreate ${c}
 
 dev:
-	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
+	docker-compose $(compose_files) up -d --force-recreate ${c}
 
 restart: set-container
-	docker-compose restart ${c}
+	docker-compose $(compose_files) restart ${c}
 
 stop: set-container
-	docker-compose stop ${c}
+	docker-compose $(compose_files) stop ${c}
 
 down:
-	docker-compose down
+	docker-compose $(compose_files) down
 
 exec: set-container
-	docker-compose exec ${c} /bin/bash
+	docker-compose $(compose_files) exec ${c} /bin/bash
 
 log: set-container
-	docker-compose logs -f ${c}
+	docker-compose $(compose_files) logs -f ${c}
 
 ps:
-	docker-compose -f docker-compose.yml -f docker-compose-dev.yml ps
+	docker-compose $(compose_files) ps
 
 
 #run server local
 dev-local-deps:
-	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate db nginx frontend
+	docker-compose $(compose_files) up -d --force-recreate db nginx frontend
 
 python_path = server/venv/bin/
 local: dev-local-deps
-	$(eval $(call use-env))
+	$(eval $(call use_env))
 	. $(python_path)activate && IS_DEBUG=TRUE POSTGRES_HOST=localhost POSTGRES_DB=${POSTGRES_DB} \
 	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ./server/manage.py runserver
 
 
 nginx-test:
-	docker-compose exec nginx nginx -t
+	docker-compose $(production_compose_files) exec nginx nginx -t
 
 nginx-reload:
-	docker-compose exec nginx nginx -s reload
+	docker-compose $(production_compose_files) exec nginx nginx -s reload
 
 makemigrations:
-	docker-compose exec server ./manage.py makemigrations
+	docker-compose $(production_compose_files) exec server ./manage.py makemigrations
 
 migrate: makemigrations
-	docker-compose exec server ./manage.py migrate
+	docker-compose $(production_compose_files) exec server ./manage.py migrate
 
 collectstatic:
-	docker-compose exec server ./manage.py collectstatic --noinput
-	docker-compose exec server ./manage.py clear_templates_cache
+	docker-compose $(production_compose_files) exec server ./manage.py collectstatic --noinput
+	docker-compose $(production_compose_files) exec server ./manage.py clear_templates_cache
 
 clear-static:
 	sudo rm -rf frontend/build/*
@@ -80,6 +83,6 @@ clear-static:
 	sudo rm -rf server/static/*
 
 build-static:
-	docker-compose up --force-recreate frontend
+	docker-compose $(production_compose_files) up --force-recreate frontend
 
 frontend: build-static collectstatic
