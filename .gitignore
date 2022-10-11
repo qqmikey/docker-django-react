@@ -5,9 +5,9 @@ pgdata/
 *.pyc
 logs/nginx/
 logs/gunicorn/
-server/media/
-server/static/
-server/server.log
-server/mysite.log
+backend/media/
+backend/static/
+backend/backend.log
+backend/mysite.log
 frontend/node_modules/
 frontend/dist/

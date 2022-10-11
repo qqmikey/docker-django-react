@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  server:
+  backend:
     command: /bin/bash ./bin/dev.sh
     environment:
       - IS_DEBUG=true

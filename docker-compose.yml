@@ -1,13 +1,13 @@
 version: '3.7'
 services:
-  server:
+  backend:
     command: /bin/bash ./bin/prod.sh
     build:
-      context: ./server
+      context: backend
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: cserver
+    container_name: cbackend
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
@@ -18,7 +18,7 @@ services:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
     volumes:
-      - ./server:/app
+      - ./backend:/app
       - ./logs/gunicorn:/var/log/gunicorn
       - ./frontend/dist:/app/frontend_dist:ro
     expose:
@@ -48,10 +48,10 @@ services:
     volumes:
       - ./logs/nginx:/var/log/nginx
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./server:/app:ro
+      - ./backend:/app:ro
       - ./frontend/dist:/app/frontend_dist:ro
     depends_on:
-      - server
+      - backend
       - frontend
   frontend:
     command: bash -c "yarn build && mkdir -p dist && rm -rf dist/* && mv build/* dist/"

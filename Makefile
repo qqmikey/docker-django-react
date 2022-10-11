@@ -7,7 +7,7 @@ compose_files = $(production_compose_files) -f docker-compose-dev.yml
 
 define set_default_container
 	ifndef c
-	c = server
+	c = backend
 	else ifeq (${c},all)
 	override c=
 	endif
@@ -50,15 +50,15 @@ ps:
 	docker-compose $(compose_files) ps
 
 
-#run server local
+#run backend local
 dev-local-deps:
 	docker-compose $(compose_files) up -d --force-recreate db nginx frontend
 
-python_path = server/venv/bin/
+python_path = backend/venv/bin/
 local: dev-local-deps
 	$(eval $(call use_env))
 	. $(python_path)activate && IS_DEBUG=TRUE POSTGRES_HOST=localhost POSTGRES_DB=${POSTGRES_DB} \
-	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ./server/manage.py runserver
+	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ./backend/manage.py runserver
 
 
 nginx-test:
@@ -68,19 +68,19 @@ nginx-reload:
 	docker-compose $(production_compose_files) exec nginx nginx -s reload
 
 makemigrations:
-	docker-compose $(production_compose_files) exec server ./manage.py makemigrations
+	docker-compose $(production_compose_files) exec backend ./manage.py makemigrations
 
 migrate: makemigrations
-	docker-compose $(production_compose_files) exec server ./manage.py migrate
+	docker-compose $(production_compose_files) exec backend ./manage.py migrate
 
 collectstatic:
-	docker-compose $(production_compose_files) exec server ./manage.py collectstatic --noinput
-	docker-compose $(production_compose_files) exec server ./manage.py clear_templates_cache
+	docker-compose $(production_compose_files) exec backend ./manage.py collectstatic --noinput
+	docker-compose $(production_compose_files) exec backend ./manage.py clear_templates_cache
 
 clear-static:
 	sudo rm -rf frontend/build/*
 	sudo rm -rf frontend/dist/*
-	sudo rm -rf server/static/*
+	sudo rm -rf backend/static/*
 
 build-static:
 	docker-compose $(production_compose_files) up --force-recreate frontend

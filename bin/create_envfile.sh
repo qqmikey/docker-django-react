@@ -22,7 +22,7 @@ POSTGRES_PASSWORD=$(create_random)
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
 
-# server
+# backend
 SECRET_KEY=$(create_secret_key)
 JWT_SECRET_KEY=$(create_secret_key)
 " >$(pwd)'/.env'
