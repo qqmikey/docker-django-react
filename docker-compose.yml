@@ -39,7 +39,7 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    image: nginx:1.21
+    image: nginx:1.23
     container_name: cnginx
     restart: always
     ports:
