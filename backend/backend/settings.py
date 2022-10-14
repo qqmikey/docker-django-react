@@ -13,11 +13,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from distutils import util
 from pathlib import Path
 
-from backend.utils.common import getenv
+from common.utils.common import getenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -177,3 +176,23 @@ if DEBUG:
         'rest_framework.renderers.BrowsableAPIRenderer',
         'rest_framework.renderers.JSONRenderer',
     )
+
+if not DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {'class': 'logging.StreamHandler', },
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+                'propagate': False,
+            },
+        },
+    }
