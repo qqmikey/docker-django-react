@@ -14,6 +14,9 @@ if [[ ! -f $(pwd)'/.env' ]]; then
 
   touch $(pwd)'/.env'
   echo "
+USER_ID=$(id -u ${USER})
+GROUP_ID=$(id -g ${USER})
+
 # postgres db
 POSTGRES_DB=$(create_random)
 POSTGRES_USER=$(create_random)

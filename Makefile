@@ -78,9 +78,9 @@ collectstatic:
 	docker-compose $(production_compose_files) exec backend ./manage.py clear_templates_cache
 
 clear-static:
-	sudo rm -rf frontend/build/*
-	sudo rm -rf frontend/dist/*
-	sudo rm -rf backend/static/*
+	rm -rf frontend/build/*
+	rm -rf frontend/dist/*
+	rm -rf backend/static/*
 
 build-static:
 	docker-compose $(production_compose_files) up --force-recreate frontend

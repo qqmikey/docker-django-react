@@ -1,0 +1,16 @@
+/.idea
+
+.gitignore
+**/.dockerignore
+.git
+
+Dockerfile
+docker-*.yml
+docker-*.yaml
+
+Makefile
+README.md
+
+/node_modules
+/build
+/dist
