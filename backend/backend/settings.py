@@ -10,10 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from distutils import util
 from pathlib import Path
 
-from common.utils.common import getenv
+from common.utils.common import getenv, strtobool
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = getenv('SECRET_KEY', 'django-insecure-4%^*&-l%0q!%4=r+jze&_jk08p)^2)vg9&y43f2q7hbq18n04=')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = util.strtobool(getenv('IS_DEBUG', 'false'))
+DEBUG = strtobool(getenv('IS_DEBUG', 'false'))
 
 ALLOWED_HOSTS = ['localhost', '*']
 
@@ -34,6 +33,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Application definition
 
 INSTALLED_APPS = [
+    'asgi_runserver',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = 'backend.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

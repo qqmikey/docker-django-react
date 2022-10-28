@@ -36,7 +36,7 @@ def web_server_proxy(request, context, templates: DjangoTemplates,
     )
 
 
-_blacklist_headers = {'Connection', 'Content-Security-Policy'}
+_blacklist_headers = {'Connection', 'Content-Security-Policy', 'Content-Length'}
 
 
 def _read_headers(headers: Collection[Tuple[str, str]]) -> Optional[Mapping[str, str]]:
