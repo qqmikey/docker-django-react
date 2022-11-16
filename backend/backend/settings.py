@@ -74,6 +74,7 @@ TEMPLATES = [
         },
     },
 ]
+USE_FRONTEND_WEB_SERVER = strtobool(getenv('USE_FRONTEND_WEB_SERVER', 'false'))
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 ASGI_APPLICATION = 'backend.asgi.application'

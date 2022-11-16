@@ -28,7 +28,7 @@ class FrontendTemplateView(View):
 
 def render_frontend_template(request, context=None, from_web_server=False):
     template = 'index.html'
-    if settings.DEBUG or from_web_server:
+    if settings.USE_FRONTEND_WEB_SERVER or from_web_server:
         return web_server_proxy(request, context, templates=get_backend_template(), path=template)
     return TemplateResponse(request, template, context)
 

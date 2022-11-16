@@ -4,6 +4,7 @@ services:
     command: /bin/bash ./bin/dev.sh
     environment:
       - IS_DEBUG=true
+      - USE_FRONTEND_WEB_SERVER=true
   nginx:
     volumes:
       - ./nginx/conf.d-dev/static_conf:/etc/nginx/conf.d/static_conf:ro
