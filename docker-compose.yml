@@ -27,7 +27,7 @@ services:
       - db
     restart: always
   db:
-    image: postgres:14
+    image: postgres:18.2
     restart: always
     expose:
       - "5432"
@@ -38,7 +38,7 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    image: nginx:1.23
+    image: nginx:1.28.2
     restart: always
     ports:
       - "80:80"

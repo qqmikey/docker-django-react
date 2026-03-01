@@ -1,4 +1,3 @@
-from distutils.util import strtobool as _strtobool
 from os import getenv as os_get_env
 
 
@@ -7,4 +6,9 @@ def getenv(key: str, default=None):
 
 
 def strtobool(val: str) -> bool:
-    return bool(_strtobool(val))
+    normalized = val.strip().lower()
+    if normalized in {'y', 'yes', 't', 'true', 'on', '1'}:
+        return True
+    if normalized in {'n', 'no', 'f', 'false', 'off', '0'}:
+        return False
+    raise ValueError(f'invalid truth value {val!r}')

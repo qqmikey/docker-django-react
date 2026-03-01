@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.14.3
 RUN apt-get update
 RUN mkdir /app
 WORKDIR /app
